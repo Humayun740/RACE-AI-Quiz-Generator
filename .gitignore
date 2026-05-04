@@ -1,0 +1,34 @@
+Virtual Environment
+
+venv/
+.venv/
+**/pycache/
+*.py[cod]
+*$py.class
+
+Data (CRITICAL: Ignore these to stay under GitHub's 100MB limit)
+
+data/raw/
+data/processed/
+data/
+*.csv
+*.json
+*.parquet
+
+models/
+!models/README.md
+*.pkl
+*.joblib
+*.h5
+*.pth
+*.onnx
+
+OS files
+
+.DS_Store
+Thumbs.db
+
+Reports and Images
+
+report/images/*.png
+report/images/*.jpg
