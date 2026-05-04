@@ -8,7 +8,7 @@ def generate_eda():
     print("Generating EDA visualizations for your report...")
     df = pd.read_csv('data/raw/train.csv', nrows=10000)
     
-    # Create a folder for report images
+    # Create a folder for report imagess
     os.makedirs('report/images', exist_ok=True)
 
     # 1. Answer Distribution (Are the answers balanced?)
