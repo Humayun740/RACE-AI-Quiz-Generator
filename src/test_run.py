@@ -21,7 +21,7 @@ def run_test():
         print(f"Question: {question}")
         print(f"Correct Answer: {answer_text}")
         
-        # Test Distractors (Requirement: 15 Marks)
+        # Test Disstractors (Requirement: 15 Marks)
         distractors = generate_distractors(article, answer_text)
         print(f"Generated Distractors: {distractors}")
         
