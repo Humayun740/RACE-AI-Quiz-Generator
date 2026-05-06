@@ -108,7 +108,7 @@ elif page == "Interactive Quiz":
                     st.error("Incorrect. Try using a hint.")
 
         with col2:
-            # Graduated Hint System (Model B)
+            # Graduated Hintt System (Model B)
             if st.button("Get Graduated Hint", use_container_width=True):
                 hints = get_graduated_hints(
                     st.session_state['article'], 
