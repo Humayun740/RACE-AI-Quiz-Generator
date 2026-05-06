@@ -15,7 +15,7 @@ def train_model_a():
     lr.fit(X_train, y_train)
     joblib.dump(lr, 'models/model_a_lr.pkl')
 
-    # 2. Supervised: SVM
+    # 2. Supervised: SVM, this is a X value for LinearSVC, you can experiment with other kernels if you like
     print("Training Linear SVM...")
     svm = LinearSVC(max_iter=1000)
     svm.fit(X_train, y_train)

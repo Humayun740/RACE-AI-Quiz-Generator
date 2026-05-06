@@ -3,7 +3,7 @@ import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
 
 def generate_distractors(article, correct_answer, n=3):
-    # 1. Split article into sentences
+    # 1. Split article into sentencs
     sentences = [s.strip() for s in article.split('.') if len(s.split()) > 3]
     
     # 2. Load the vectorizer you fit yesterday
@@ -29,7 +29,7 @@ def generate_distractors(article, correct_answer, n=3):
         if len(distractors) >= n:
             break
             
-    # If the article is too short, provide generic fallbacks
+            
     while len(distractors) < n:
         distractors.append("Information not mentioned in text")
         
