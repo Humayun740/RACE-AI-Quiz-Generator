@@ -9,6 +9,7 @@ from distraction_gen import generate_distractors
 from hint_gen import get_graduated_hints
 
 # --- PAGE CONFIG ---
+#collapsable article reference
 st.set_page_config(
     page_title="RACE AI Quiz Generator",
     page_icon="🤖",

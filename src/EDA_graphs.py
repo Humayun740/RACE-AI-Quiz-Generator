@@ -18,7 +18,7 @@ def generate_eda():
     plt.savefig('report/images/answer_dist.png')
     plt.close()
 
-    # 2. Article Length Distribution
+    # 2. Article Length Distribution based on word count
     df['article_len'] = df['article'].apply(lambda x: len(x.split()))
     plt.figure(figsize=(10, 6))
     sns.histplot(df['article_len'], bins=30, kde=True, color='blue')
