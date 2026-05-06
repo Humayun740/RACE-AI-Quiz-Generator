@@ -3,6 +3,7 @@ import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
 
 def generate_distractors(article, correct_answer, n=3):
+    #developer dashboard with performance metrics and EDA images(ignore this comment)
     # 1. Split article into sentencs
     sentences = [s.strip() for s in article.split('.') if len(s.split()) > 3]
     

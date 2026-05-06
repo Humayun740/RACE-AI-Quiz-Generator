@@ -73,6 +73,7 @@ if page == "Article Selection":
     st.success(f"Article #{sample_idx} is locked in. Head to the 'Interactive Quiz' page!")
 
 # --- PAGE 2: INTERACTIVE QUIZ ---
+#developer dashboard with performance metrics and EDA images(ignore this comment)
 elif page == "Interactive Quiz":
     st.title("Step 2: Test Your Comprehension")
     

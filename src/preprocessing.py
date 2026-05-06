@@ -57,6 +57,6 @@ def run_preprocessing():
     test_raw.head(10).to_csv('data/processed/sample_test.csv', index=False)
     
     print(f"Done! Train: {X_train.shape[0]} | Val: {X_val.shape[0]} | Test: {X_test.shape[0]}")
-
+#developer dashboard with performance metrics and EDA images
 if __name__ == "__main__":
     run_preprocessing()
