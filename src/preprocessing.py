@@ -15,7 +15,7 @@ def process_set(df):
     return pd.DataFrame(data)
 
 def run_preprocessing():
-    # 1. Load the single file (train.csv) as requested
+    
     input_path = 'data/raw/train.csv'
     if not os.path.exists(input_path):
         print("Error: train.csv not found in data/raw/")
@@ -24,18 +24,18 @@ def run_preprocessing():
     print("Loading 10,000 rows and performing manual 80-10-10 split...")
     full_df = pd.read_csv(input_path, nrows=10000)
 
-    # 2. Manual Split: 80% Train, 10% Val, 10% Test
+    
     train_raw, temp_raw = train_test_split(full_df, test_size=0.20, random_state=42)
     val_raw, test_raw = train_test_split(temp_raw, test_size=0.50, random_state=42)
 
-    # 3. Expand sets into Model A format
+    
     print("Expanding datasets for verification task...")
     train_expanded = process_set(train_raw)
     val_expanded = process_set(val_raw)
     test_expanded = process_set(test_raw)
 
-    # 4. TF-IDF Vectorization
-    # CRITICAL: Fit ONLY on the training set to avoid data leakage
+    
+    
     print("Vectorizing text (fitting on train set only)...")
     vectorizer = TfidfVectorizer(stop_words='english', max_features=5000, sublinear_tf=True)
     
@@ -43,16 +43,16 @@ def run_preprocessing():
     X_val = vectorizer.transform(val_expanded['text'])
     X_test = vectorizer.transform(test_expanded['text'])
 
-    # 5. Save everything
+    
     os.makedirs('data/processed', exist_ok=True)
     os.makedirs('models', exist_ok=True)
     
-    # Save the matrices
+    
     joblib.dump((X_train, train_expanded['label']), 'data/processed/train_data.pkl')
     joblib.dump((X_val, val_expanded['label']), 'data/processed/val_data.pkl')
     joblib.dump((X_test, test_expanded['label']), 'data/processed/test_data.pkl')
     
-    # Save the vectorizer for Day 3 UI usage
+    
     joblib.dump(vectorizer, 'models/tfidf_vectorizer.pkl')
     test_raw.head(10).to_csv('data/processed/sample_test.csv', index=False)
     
