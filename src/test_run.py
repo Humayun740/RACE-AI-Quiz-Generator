@@ -3,8 +3,7 @@ from distraction_gen import generate_distractors
 from hint_gen import get_graduated_hints
 
 def run_test():
-    
-    
+    # load sample test data   
     try:
         test_df = pd.read_csv('data/processed/sample_test.csv')
     except:
