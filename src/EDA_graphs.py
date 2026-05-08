@@ -1,4 +1,3 @@
-
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -8,17 +7,14 @@ def generate_eda():
     print("Generating EDA visualizations for your report...")
     df = pd.read_csv('data/raw/train.csv', nrows=10000)
     
-    
     os.makedirs('report/images', exist_ok=True)
 
-    
     plt.figure(figsize=(8, 5))
     sns.countplot(x='answer', data=df, palette='viridis')
     plt.title('Distribution of Correct Answers (A, B, C, D)')
     plt.savefig('report/images/answer_dist.png')
     plt.close()
 
-    
     df['article_len'] = df['article'].apply(lambda x: len(x.split()))
     plt.figure(figsize=(10, 6))
     sns.histplot(df['article_len'], bins=30, kde=True, color='blue')

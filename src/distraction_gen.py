@@ -1,42 +1,32 @@
 import joblib
-import numpy as np
+import nltk
 from sklearn.metrics.pairwise import cosine_similarity
+from tokenizer_utils import lemmatized_tokenizer
 
-def generate_distractors(article, correct_answer, n=3):
-    
-    sentences = [s.strip() for s in article.split('.') if len(s.split()) > 3]
-    
-    
+def generate_distractors(article, correct_answer, num_distractors=3):
     vectorizer = joblib.load('models/tfidf_vectorizer.pkl')
     
+    sentences = nltk.sent_tokenize(article)
     
-    ans_vec = vectorizer.transform([correct_answer])
-    sent_vecs = vectorizer.transform(sentences)
+    all_vectors = vectorizer.transform(sentences + [correct_answer])
+    sentence_vectors = all_vectors[:-1]
+    answer_vector = all_vectors[-1]
     
+    scores = cosine_similarity(answer_vector, sentence_vectors).flatten()
     
-    scores = cosine_similarity(ans_vec, sent_vecs).flatten()
-    
-    
-    
-    ranked_idx = scores.argsort()[::-1]
+    ranked_indices = scores.argsort()[::-1]
     
     distractors = []
-    for idx in ranked_idx:
-        candidate = sentences[idx]
+    for idx in ranked_indices:
+        candidate = sentences[idx].strip()
+        if candidate.lower() not in correct_answer.lower() and len(candidate.split()) > 3:
+            if candidate not in distractors:
+                distractors.append(candidate)
         
-        if scores[idx] < 0.9 and candidate.lower() != correct_answer.lower():
-            distractors.append(candidate)
-        if len(distractors) >= n:
+        if len(distractors) >= num_distractors:
             break
             
-            
-    while len(distractors) < n:
-        distractors.append("Information not mentioned in text")
+    while len(distractors) < num_distractors:
+        distractors.append("None of the above.")
         
     return distractors
-
-if __name__ == "__main__":
-    
-    art = "The solar system has eight planets. Mars is known as the Red Planet."
-    ans = "Mars"
-    print(f"Generated Distractors: {generate_distractors(art, ans)}")
