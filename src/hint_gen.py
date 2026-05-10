@@ -11,9 +11,11 @@ def lemmatized_tokenizer(text):
     return [lemmatizer.lemmatize(token) for token in tokens]
 
 def get_graduated_hints(article, question, correct_answer):
+    # Split article into sentences and filter out very short ones
     sentences = nltk.sent_tokenize(article)
     sentences = [s.strip() for s in sentences if len(s.split()) > 4]
     
+    # Load checkpoint vectorizer if available, otherwise fall back to base model
     try:
         vectorizer = joblib.load('models/tfidf_vectorizer_checkpoint.pkl')
     except:
