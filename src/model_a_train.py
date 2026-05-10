@@ -26,11 +26,11 @@ def lemmatized_tokenizer(text):
 def train_pipeline():
     print("Loading full RACE dataset...")
     input_path = 'data/raw/train.csv'
-    
+
     if not os.path.exists(input_path):
         print(f"Error: {input_path} not found. Please place train.csv in data/raw/")
         return
-        
+
     df = pd.read_csv(input_path) 
     print(f"Dataset Loaded. Total questions: {len(df)}")
 
@@ -44,13 +44,13 @@ def train_pipeline():
             label = 1 if opt == ans_col else 0
             text_content = f"passage: {article} [SEP] question: {question} [SEP] option: {row[opt]}"
             expanded_data.append({'text': text_content, 'label': label})
-    
+
     edf = pd.DataFrame(expanded_data)
     print(f"Expanded Data: {len(edf)} rows.")
 
     train_df, temp_df = train_test_split(edf, test_size=0.2, random_state=42, stratify=edf['label'])
     val_df, test_df = train_test_split(temp_df, test_size=0.5, random_state=42, stratify=temp_df['label'])
-    
+
     os.makedirs('data/processed', exist_ok=True)
     test_df.to_csv('data/processed/sample_test.csv', index=False)
 
@@ -63,7 +63,7 @@ def train_pipeline():
         min_df=5,
         strip_accents='unicode'
     )
-    
+
     X_train = vectorizer.fit_transform(train_df['text'])
     X_val = vectorizer.transform(val_df['text'])
 
@@ -85,7 +85,7 @@ def train_pipeline():
         dual=False
     ).fit(X_train, train_df['label'])
     joblib.dump(model_svm, 'models/model_a_svm_checkpoint.pkl')
-    
+
     joblib.dump(vectorizer, 'models/tfidf_vectorizer_checkpoint.pkl')
 
     print("\n" + "="*40)
