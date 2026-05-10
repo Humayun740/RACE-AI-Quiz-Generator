@@ -20,8 +20,8 @@ def run_preprocessing():
         print("Error: train.csv not found in data/raw/")
         return
 
-    print("Loading 10,000 rows and performing manual 80-10-10 split...")
-    full_df = pd.read_csv(input_path, nrows=10000)
+    print("Loading all rows and performing manual 80-10-10 split...")
+    full_df = pd.read_csv(input_path)
 
     train_raw, temp_raw = train_test_split(full_df, test_size=0.20, random_state=42)
     val_raw, test_raw = train_test_split(temp_raw, test_size=0.50, random_state=42)
