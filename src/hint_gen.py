@@ -5,6 +5,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 lemmatizer = WordNetLemmatizer()
 
+# Custom tokenizer that lemmatizes each token before returning
 def lemmatized_tokenizer(text):
     tokens = nltk.word_tokenize(text.lower())
     return [lemmatizer.lemmatize(token) for token in tokens]
@@ -18,14 +19,16 @@ def get_graduated_hints(article, question, correct_answer):
     except:
         vectorizer = joblib.load('models/tfidf_vectorizer.pkl')
     
+    # Duplicate the answer to give it more weight during similarity scoring
     target_text = f"{question} {correct_answer} {correct_answer}"
     target_vec = vectorizer.transform([target_text])
     sent_vecs = vectorizer.transform(sentences)
     
     scores = cosine_similarity(target_vec, sent_vecs).flatten()
     
+    # Sort indices by ascending score; best matches are at the end
     ranked_idx = scores.argsort()
-    
+
     h1_idx = ranked_idx[len(ranked_idx)//4]
     hint_1 = sentences[h1_idx]
     
@@ -35,6 +38,7 @@ def get_graduated_hints(article, question, correct_answer):
     best_idx = ranked_idx[-1]
     hint_3 = sentences[best_idx]
     
+    # Avoid returning the same sentence for hints 2 and 3
     if hint_3 == hint_2 and len(ranked_idx) > 3:
         hint_3 = sentences[ranked_idx[-2]]
         
